@@ -5,110 +5,7 @@
 
 import wx
 
-class DrawingPanel(wx.Panel):
-    """A panel that allows freehand drawing with the mouse."""
-
-    def __init__(self, parent):
-        super().__init__(parent, style=wx.FULL_REPAINT_ON_RESIZE)
-
-        self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
-        self.SetBackgroundColour(wx.WHITE)
-
-        self.lines = []          # list of completed strokes: [(points, colour, width), ...]
-        self.current_line = []   # points of the stroke currently being drawn
-        self.pen_colour = wx.BLACK
-        self.pen_width = 2
-        self.drawing = False
-
-        # Bind events
-        self.Bind(wx.EVT_PAINT, self.on_paint)
-        self.Bind(wx.EVT_LEFT_DOWN, self.on_left_down)
-        self.Bind(wx.EVT_LEFT_UP, self.on_left_up)
-        self.Bind(wx.EVT_MOTION, self.on_motion)
-        self.Bind(wx.EVT_LEAVE_WINDOW, self.on_leave)
-
-    # ---------- Mouse handlers ----------
-
-    def on_left_down(self, event):
-        self.drawing = True
-        self.current_line = [event.GetPosition()]
-        self.CaptureMouse()
-
-    def on_left_up(self, event):
-        if self.drawing:
-            self.drawing = False
-            if self.HasCapture():
-                self.ReleaseMouse()
-            if len(self.current_line) > 1:
-                self.lines.append(
-                    (self.current_line, self.pen_colour, self.pen_width)
-                )
-            self.current_line = []
-            self.Refresh()
-
-    def on_leave(self, event):
-        if self.drawing and self.HasCapture():
-            self.ReleaseMouse()
-            self.drawing = False
-            if len(self.current_line) > 1:
-                self.lines.append(
-                    (self.current_line, self.pen_colour, self.pen_width)
-                )
-            self.current_line = []
-            self.Refresh()
-
-    def on_motion(self, event):
-        # Update the status bar with the current mouse coordinates
-        frame = self.GetTopLevelParent()
-        pos = event.GetPosition()
-        frame.SetStatusText(f"X: {pos.x}   Y: {pos.y}", 1)
-
-        if self.drawing and event.Dragging() and event.LeftIsDown():
-            self.current_line.append(pos)
-            self.Refresh()
-
-    # ---------- Painting ----------
-
-    def on_paint(self, event):
-        dc = wx.AutoBufferedPaintDC(self)
-        dc.Clear()
-        gc = wx.GraphicsContext.Create(dc)
-        if gc is None:
-            return
-
-        # Draw completed strokes
-        for points, colour, width in self.lines:
-            self._draw_stroke(gc, points, colour, width)
-
-        # Draw the stroke currently in progress
-        if self.current_line:
-            self._draw_stroke(gc, self.current_line, self.pen_colour, self.pen_width)
-
-    @staticmethod
-    def _draw_stroke(gc, points, colour, width):
-        if len(points) < 2:
-            return
-        pen = wx.Pen(colour, width)
-        gc.SetPen(pen)
-        path = gc.CreatePath()
-        path.MoveToPoint(points[0].x, points[0].y)
-        for pt in points[1:]:
-            path.AddLineToPoint(pt.x, pt.y)
-        gc.StrokePath(path)
-
-    # ---------- Public API used by the menu ----------
-
-    def clear_canvas(self):
-        self.lines = []
-        self.current_line = []
-        self.Refresh()
-
-    def set_pen_colour(self, colour):
-        self.pen_colour = colour
-
-    def set_pen_width(self, width):
-        self.pen_width = width
-
+from view import MavisDrawingPanel
 
 class MainFrame(wx.Frame):
     """Main application window."""
@@ -116,7 +13,7 @@ class MainFrame(wx.Frame):
     def __init__(self):
         super().__init__(parent=None, title="wxPython Drawing App", size=(800, 600))
 
-        self.drawing_panel = DrawingPanel(self)
+        self.drawing_panel = MavisDrawingPanel(self)
 
         self._create_menu_bar()
         self._create_status_bar()
