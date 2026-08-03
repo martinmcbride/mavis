@@ -27,19 +27,19 @@ class MainFrame(wx.Frame):
 
         # --- File menu ---
         file_menu = wx.Menu()
-        clear_item = file_menu.Append(wx.ID_ANY, "&Clear Canvas\tCtrl+N",
-                                       "Clear the drawing area")
-        file_menu.AppendSeparator()
-        exit_item = file_menu.Append(wx.ID_EXIT, "E&xit\tCtrl+Q",
-                                      "Exit the application")
+        # clear_item = file_menu.Append(wx.ID_ANY, "&Clear Canvas\tCtrl+N",
+        #                                "Clear the drawing area")
+        # file_menu.AppendSeparator()
+        # exit_item = file_menu.Append(wx.ID_EXIT, "E&xit\tCtrl+Q",
+        #                               "Exit the application")
         menu_bar.Append(file_menu, "&File")
 
         # --- Edit menu (pen options) ---
         edit_menu = wx.Menu()
-        colour_item = edit_menu.Append(wx.ID_ANY, "Choose Pen &Colour...\tCtrl+K",
-                                        "Choose the pen colour")
-        width_item = edit_menu.Append(wx.ID_ANY, "Choose Pen &Width...\tCtrl+W",
-                                       "Choose the pen width")
+        # colour_item = edit_menu.Append(wx.ID_ANY, "Choose Pen &Colour...\tCtrl+K",
+        #                                 "Choose the pen colour")
+        # width_item = edit_menu.Append(wx.ID_ANY, "Choose Pen &Width...\tCtrl+W",
+        #                                "Choose the pen width")
         menu_bar.Append(edit_menu, "&Edit")
 
         # --- Help menu ---
@@ -51,10 +51,10 @@ class MainFrame(wx.Frame):
         self.SetMenuBar(menu_bar)
 
         # Bind menu events
-        self.Bind(wx.EVT_MENU, self.on_clear, clear_item)
-        self.Bind(wx.EVT_MENU, self.on_exit, exit_item)
-        self.Bind(wx.EVT_MENU, self.on_choose_colour, colour_item)
-        self.Bind(wx.EVT_MENU, self.on_choose_width, width_item)
+        # self.Bind(wx.EVT_MENU, self.on_clear, clear_item)
+        # self.Bind(wx.EVT_MENU, self.on_exit, exit_item)
+        # self.Bind(wx.EVT_MENU, self.on_choose_colour, colour_item)
+        # self.Bind(wx.EVT_MENU, self.on_choose_width, width_item)
         self.Bind(wx.EVT_MENU, self.on_about, about_item)
 
     # ---------- Status bar ----------

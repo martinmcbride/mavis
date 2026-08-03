@@ -7,7 +7,7 @@ from typing import Tuple
 
 import wx
 
-from mavis.page import Page
+from page import Page
 
 
 # Main document view
@@ -16,7 +16,7 @@ from mavis.page import Page
 class ViewSettings:
     scale: float = 100.0
     origin: Tuple[float, float] = (0., 0.)
-    color: wx.Colour = (64, 64, 64)
+    color: wx.Colour = dataclasses.field(default_factory=lambda: wx.LIGHT_GREY)
 
 
 class MavisDrawingPanel(wx.Panel):
@@ -59,6 +59,9 @@ class MavisDrawingPanel(wx.Panel):
         gc = wx.GraphicsContext.Create(dc)
         if gc is None:
             return
+
+        gc.SetBrush(wx.Brush(wx.BLUE))
+        gc.DrawRectangle(0, 0, 100, 100)
 
         # # Draw completed strokes
         # for points, colour, width in self.lines:
