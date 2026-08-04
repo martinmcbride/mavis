@@ -7,9 +7,6 @@ from typing import Tuple
 
 import wx
 
-from page import Page
-
-
 # Main document view
 
 @dataclasses.dataclass
@@ -27,8 +24,6 @@ class MavisDrawingPanel(wx.Panel):
         self.viewSettings = ViewSettings()
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         self.SetBackgroundColour(self.viewSettings.color)
-
-        self.page = Page()
 
         # Bind events
         self.Bind(wx.EVT_PAINT, self.on_paint)

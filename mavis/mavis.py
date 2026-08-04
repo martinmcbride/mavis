@@ -1,17 +1,21 @@
 # Mavis project
 #
-# Created by Martin McBride 30-Aug-2026
+# Created by Martin McBride 04-Aug-2026
 # MIT licence
 
 import wx
 
+from document import Document
 from view import MavisDrawingPanel
+import ui
 
 class MainFrame(wx.Frame):
     """Main application window."""
 
     def __init__(self):
         super().__init__(parent=None, title="wxPython Drawing App", size=(800, 600))
+
+        self.document = Document()
 
         self.drawing_panel = MavisDrawingPanel(self)
 
@@ -30,16 +34,14 @@ class MainFrame(wx.Frame):
         # clear_item = file_menu.Append(wx.ID_ANY, "&Clear Canvas\tCtrl+N",
         #                                "Clear the drawing area")
         # file_menu.AppendSeparator()
-        # exit_item = file_menu.Append(wx.ID_EXIT, "E&xit\tCtrl+Q",
-        #                               "Exit the application")
+        exit_item = file_menu.Append(wx.ID_EXIT, "E&xit\tCtrl+Q",
+                                       "Exit the application")
         menu_bar.Append(file_menu, "&File")
 
         # --- Edit menu (pen options) ---
         edit_menu = wx.Menu()
-        # colour_item = edit_menu.Append(wx.ID_ANY, "Choose Pen &Colour...\tCtrl+K",
-        #                                 "Choose the pen colour")
-        # width_item = edit_menu.Append(wx.ID_ANY, "Choose Pen &Width...\tCtrl+W",
-        #                                "Choose the pen width")
+        page_settings_item = edit_menu.Append(wx.ID_ANY, "Page settings...\tCtrl+K",
+                                        "Set up the page")
         menu_bar.Append(edit_menu, "&Edit")
 
         # --- Help menu ---
@@ -51,8 +53,8 @@ class MainFrame(wx.Frame):
         self.SetMenuBar(menu_bar)
 
         # Bind menu events
-        # self.Bind(wx.EVT_MENU, self.on_clear, clear_item)
-        # self.Bind(wx.EVT_MENU, self.on_exit, exit_item)
+        self.Bind(wx.EVT_MENU, self.on_page_settings, page_settings_item)
+        self.Bind(wx.EVT_MENU, self.on_exit, exit_item)
         # self.Bind(wx.EVT_MENU, self.on_choose_colour, colour_item)
         # self.Bind(wx.EVT_MENU, self.on_choose_width, width_item)
         self.Bind(wx.EVT_MENU, self.on_about, about_item)
@@ -68,9 +70,12 @@ class MainFrame(wx.Frame):
 
     # ---------- Menu event handlers ----------
 
-    def on_clear(self, event):
-        self.drawing_panel.clear_canvas()
-        self.SetStatusText("Canvas cleared", 0)
+    def on_page_settings(self, event):
+        dlg = ui.PageSettingsDialog(self, self.document.page)
+        if dlg.ShowModal() == wx.ID_OK:
+            width, height, color = dlg.get_values()
+            self.drawing_panel.page.color = color
+        dlg.Destroy()
 
     def on_exit(self, event):
         self.Close()

@@ -1,7 +1,8 @@
 # Mavis project
 #
-# Created by Martin McBride 30-Aug-2026
+# Created by Martin McBride 04-Aug-2026
 # MIT licence
+
 import dataclasses
 
 import wx
@@ -17,3 +18,8 @@ class Page:
 
     def paint(self, gc: GraphicsContext):
         gc.DrawRectangle(0, 0, self.width, self.height, self.color)
+
+
+@dataclasses.dataclass
+class Document:
+    page: Page = dataclasses.field(default_factory=lambda: Page())
