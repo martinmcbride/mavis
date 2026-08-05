@@ -9,14 +9,13 @@ import wx
 
 from document import Page
 
-
 # Main document view
 
 @dataclasses.dataclass
 class ViewSettings:
     scale: float = 100.0
     origin: Tuple[float, float] = (0., 0.)
-    color: wx.Colour = dataclasses.field(default_factory=lambda: wx.LIGHT_GREY)
+    color: wx.Colour = dataclasses.field(default_factory=lambda: wx.Colour(128, 128, 128))
 
 
 class MavisDrawingPanel(wx.Panel):
@@ -60,9 +59,10 @@ class MavisDrawingPanel(wx.Panel):
             return
 
         doc = self.parent.document
+        doc.page.paint(gc)
 
-        gc.SetBrush(wx.Brush(doc.page.color))
-        gc.DrawRectangle(0, 0, doc.page.width, doc.page.height)
+        # gc.SetBrush(wx.Brush(doc.page.color))
+        # gc.DrawRectangle(0, 0, doc.page.width, doc.page.height)
 
         # # Draw completed strokes
         # for points, colour, width in self.lines:

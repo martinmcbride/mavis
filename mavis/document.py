@@ -17,7 +17,8 @@ class Page:
     color: wx.Colour = dataclasses.field(default_factory=lambda: wx.WHITE)
 
     def paint(self, gc: GraphicsContext):
-        gc.DrawRectangle(0, 0, self.width, self.height, self.color)
+        gc.SetBrush(wx.Brush(self.color))
+        gc.DrawRectangle(0, 0, self.width, self.height)
 
 
 @dataclasses.dataclass
