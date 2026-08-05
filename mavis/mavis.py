@@ -74,8 +74,11 @@ class MainFrame(wx.Frame):
         dlg = ui.PageSettingsDialog(self, self.document.page)
         if dlg.ShowModal() == wx.ID_OK:
             width, height, color = dlg.get_values()
-            self.drawing_panel.page.color = color
+            self.document.page.width = width
+            self.document.page.height = height
+            self.document.page.color = color
         dlg.Destroy()
+        self.drawing_panel.Update()
 
     def on_exit(self, event):
         self.Close()

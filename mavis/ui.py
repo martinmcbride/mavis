@@ -6,6 +6,8 @@
 import wx
 
 from document import Page
+from controls import PositiveNumberCtrl
+
 
 class PageSettingsDialog(wx.Dialog):
     """
@@ -46,12 +48,12 @@ class PageSettingsDialog(wx.Dialog):
 
         grid.Add(wx.StaticText(self, label="Width (px):"),
                   0, wx.ALIGN_CENTER_VERTICAL)
-        self.width_ctrl = wx.TextCtrl(self, value=str(self.width))
+        self.width_ctrl = PositiveNumberCtrl(self, value=str(self.width), allow_zero=False)
         grid.Add(self.width_ctrl, 0, wx.EXPAND)
 
         grid.Add(wx.StaticText(self, label="Height (px):"),
                   0, wx.ALIGN_CENTER_VERTICAL)
-        self.height_ctrl = wx.TextCtrl(self, value=str(self.height))
+        self.height_ctrl = PositiveNumberCtrl(self, value=str(self.height), allow_zero=False)
         grid.Add(self.height_ctrl, 0, wx.EXPAND)
 
         dims_sizer.Add(grid, 0, wx.EXPAND | wx.ALL, 8)
@@ -87,8 +89,8 @@ class PageSettingsDialog(wx.Dialog):
 
     def on_ok(self, event):
         # Basic validation before accepting
-        width = self.width_ctrl.GetValue()
-        height = self.height_ctrl.GetValue()
+        width = self.width_ctrl.GetNumericValue()
+        height = self.height_ctrl.GetNumericValue()
 
         if width <= 0 or height <= 0:
             wx.MessageBox("Width and height must be positive numbers.",
@@ -102,9 +104,9 @@ class PageSettingsDialog(wx.Dialog):
     def get_values(self):
         """Return the (width, height, colour) chosen by the user."""
         return (
-            self.width_ctrl.GetValue(),
-            self.height_ctrl.GetValue(),
-            self.colour_picker.GetColour(),
+            self.width_ctrl.GetNumericValue(),
+            self.height_ctrl.GetNumericValue(),
+            self.colour_picker.GetColour()
         )
 
 

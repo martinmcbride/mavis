@@ -7,6 +7,9 @@ from typing import Tuple
 
 import wx
 
+from document import Page
+
+
 # Main document view
 
 @dataclasses.dataclass
@@ -21,6 +24,7 @@ class MavisDrawingPanel(wx.Panel):
     def __init__(self, parent):
         super().__init__(parent, style=wx.FULL_REPAINT_ON_RESIZE)
 
+        self.parent = parent
         self.viewSettings = ViewSettings()
         self.SetBackgroundStyle(wx.BG_STYLE_PAINT)
         self.SetBackgroundColour(self.viewSettings.color)
@@ -55,8 +59,10 @@ class MavisDrawingPanel(wx.Panel):
         if gc is None:
             return
 
-        gc.SetBrush(wx.Brush(wx.BLUE))
-        gc.DrawRectangle(0, 0, 100, 100)
+        doc = self.parent.document
+
+        gc.SetBrush(wx.Brush(doc.page.color))
+        gc.DrawRectangle(0, 0, doc.page.width, doc.page.height)
 
         # # Draw completed strokes
         # for points, colour, width in self.lines:
