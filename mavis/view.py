@@ -7,8 +7,6 @@ from typing import Tuple
 
 import wx
 
-from document import Page
-
 # Main document view
 
 @dataclasses.dataclass
@@ -60,6 +58,9 @@ class MavisDrawingPanel(wx.Panel):
 
         doc = self.parent.document
         doc.page.paint(gc)
+
+        for item in doc.items:
+            item.paint(gc)
 
         # gc.SetBrush(wx.Brush(doc.page.color))
         # gc.DrawRectangle(0, 0, doc.page.width, doc.page.height)

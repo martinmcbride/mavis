@@ -6,8 +6,9 @@
 import wx
 
 from document import Document
-from view import MavisDrawingPanel
 import ui
+from view import MavisDrawingPanel
+
 
 class MainFrame(wx.Frame):
     """Main application window."""
