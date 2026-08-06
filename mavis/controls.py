@@ -1,3 +1,10 @@
+# Mavis project
+#
+# Custom controls
+#
+# Created by Martin McBride 05-Aug-2026
+# MIT licence
+
 import wx
 import re
 

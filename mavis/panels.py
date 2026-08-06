@@ -1,5 +1,7 @@
 # Mavis project
 #
+# Main panels for Mavis
+#
 # Created by Martin McBride 30-Aug-2026
 # MIT licence
 import dataclasses

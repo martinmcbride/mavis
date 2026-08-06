@@ -1,5 +1,7 @@
 # Mavis project
 #
+# Dialog boxes
+#
 # Created by Martin McBride 30-Aug-2026
 # MIT licence
 

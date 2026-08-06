@@ -1,5 +1,7 @@
 # Mavis project
 #
+# Main window for Mavis
+#
 # Created by Martin McBride 04-Aug-2026
 # MIT licence
 
@@ -7,7 +9,7 @@ import wx
 
 from document import Document
 import ui
-from view import MavisDrawingPanel
+from panels import MavisDrawingPanel
 
 
 class MainFrame(wx.Frame):

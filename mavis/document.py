@@ -1,5 +1,7 @@
 # Mavis project
 #
+# Document and all the items that form part of the document content
+#
 # Created by Martin McBride 04-Aug-2026
 # MIT licence
 
